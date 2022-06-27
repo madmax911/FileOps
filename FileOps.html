@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <title>FileOps</title>
+  <style>
+    /* css */
+  </style>
+</head>
+<body>
+  <input id="txtFileName" type="text" value="file1.txt" />
+  <button id="btnReadFile" /> Read file </button>
+  <button id="btnWriteFile" /> Write file </button><br>
+  <textarea id="txtFileContents" rows="8" cols="50"></textarea><br>
+</body>
+<script>
+  let xhr = new XMLHttpRequest();
+
+  btnReadFile.onclick = () =>
+  {
+    xhr.onreadystatechange = () => { if (xhr.readyState == 4)
+    {
+      console.log(`GET Response:  ${xhr.status} \nData:\n${xhr.responseText}`);
+      
+      if (xhr.status === 200)
+        txtFileContents.value = xhr.responseText;
+    }}
+    xhr.open("GET", "http://localhost:8003/" + txtFileName.value);
+    xhr.send();
+  }
+
+  btnWriteFile.onclick = () =>
+  {
+    xhr.onreadystatechange = () => { if (xhr.readyState == 4)
+    {
+      console.log(`POST Response:  ${xhr.status} \nData:\n${xhr.responseText}`);
+    }}
+    xhr.open("POST", "http://localhost:8003/" + txtFileName.value);
+    xhr.send(txtFileContents.value);
+  }
+
+</script>
+</html>
